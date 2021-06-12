@@ -20,3 +20,7 @@ CREATE TABLE dbo.Document (
 )
 GO
 
+CREATE LOGIN dbuser WITH PASSWORD = 'dbuser';
+CREATE USER dbuser FOR LOGIN dbuser; 
+
+
