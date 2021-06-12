@@ -1,9 +1,19 @@
 package com.documentsrus.dms.model;
 
 public class Document {
+    private int id;
     private String name;
+    private String type;
     private String description;
     private byte[] document;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -11,6 +21,14 @@ public class Document {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {

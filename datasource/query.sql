@@ -13,6 +13,7 @@ exec dbo.sp_deleteDocument @id_Document = 1;
 GO;
 
 select * from dbo.Document
+exec dbo.sp_readDocument @id = 1
 
 exec dbo.sp_updateDocument 
 	@id = 4, 

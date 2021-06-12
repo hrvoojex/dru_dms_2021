@@ -6,7 +6,7 @@
 --           Ako nije predan file, ostaje stari
 -- ==============================================================
 
-ALTER PROCEDURE [dbo].[sp_updateDocument] 
+CREATE PROCEDURE [dbo].[sp_updateDocument] 
 	@id          INT
    ,@name        NVARCHAR(100) = NULL
    ,@type        NVARCHAR(30) = NULL
