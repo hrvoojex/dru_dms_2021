@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 public class DmsService implements DmsServiceInterface {
 
     @Autowired
-    DmsRepositoryInterface dmsRepository;
+    //DmsRepositoryInterface dmsRepository;
+    DmsRepositoryInterface dmsTestRepository;
+
 
     @Override
     public Document getDocument(int id) throws Exception {
-        return dmsRepository.getDocument(id);
+        return dmsTestRepository.getDocument(id);
     }
 }

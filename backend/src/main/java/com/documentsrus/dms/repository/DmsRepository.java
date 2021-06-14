@@ -23,19 +23,20 @@ public class DmsRepository implements DmsRepositoryInterface {
         cs.setInt(1, id);
 
         rs = cs.executeQuery();
-        int myId = rs.getInt("id_Document");
-        if (rs.getInt("id_Document") == 0) {
-            throw new Exception(String.format("There is no document with ID: %d", id));
-        }
-        document = new Document();
-        while(rs.next()){
-            document.setId(rs.getInt("id_Document"));
-            document.setName(rs.getString("name_Document"));
-            document.setType(rs.getString("type_Document"));
-            document.setDescription(rs.getString("description_Document"));
-            document.setDocument(rs.getBytes("file_Document"));
+        if (rs.next() == false) {
+            System.out.println(String.format("There is no document with ID: %d", id));
+            throw new Exception("There is no document with ID: " + id);
+        } else {
+            do {
+                document = new Document();
+                document.setId(rs.getInt("id_Document"));
+                document.setName(rs.getString("name_Document"));
+                document.setType(rs.getString("type_Document"));
+                document.setDescription(rs.getString("description_Document"));
+                document.setDocument(rs.getBytes("file_Document"));
 
-            System.out.println(document.toString());
+                System.out.println("Document name: " + document.getName());
+            } while (rs.next());
         }
 
         rs.close();
