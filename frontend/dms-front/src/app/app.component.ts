@@ -1,3 +1,5 @@
+import { IResultSet } from './data/IDocument';
+import { DmsService } from './service/dms-service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'dms-front';
+  title = 'DMS Front';
+  resultSetArray: IResultSet[];
+
+  constructor(public restService: DmsService) { }
+
+  ngOnInit() {
+    
+  }
+
+  getAllDocuments() {
+    this.restService.getAllDocuments().subscribe(response => {
+      this.errorMessage = '';
+      this.documentArray = [];
+      this.countDocument = 1;
+
+      this.resultSetArray = [];
+      this.resultSetArray.push({
+          name: response.name,
+          type: response.type
+        });
+    }
+  };
+  
+
 }
