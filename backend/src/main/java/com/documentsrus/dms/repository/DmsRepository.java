@@ -1,47 +1,69 @@
 package com.documentsrus.dms.repository;
 
 import com.documentsrus.dms.model.Document;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
+@Slf4j
+@Qualifier("dmsTestRepository")
 public class DmsRepository implements DmsRepositoryInterface {
+
+    JdbcTemplate jdbcTemplate;
+
+    DmsRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
     public Document getDocument(int id) throws Exception {
-        Connection con = null;
-        ResultSet rs = null;
-        Document document = null;
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_readDocument")
+                    .returningResultSet("documents", new RowMapper<Document>() {
 
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url = "jdbc:sqlserver://localhost:1433;DatabaseName=DRU_DMS_2021;instance=MSSQLSERVER;";
-        con = DriverManager.getConnection(url, "dbuser", "dbuser");
+                        @Override
+                        public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            Document document = new Document();
 
-        String SQL = "{call dbo.sp_readDocument(?)}";
+                            document.setId(rs.getInt("id_Document"));
+                            document.setName(rs.getString("name_Document"));
+                            document.setType(rs.getString("type_Document"));
+                            document.setDescription(rs.getString("description_Document"));
+                            document.setDocument(rs.getBytes("file_Document"));
 
-        CallableStatement cs = con.prepareCall(SQL);
-        cs.setInt(1, id);
+                            return document;
+                        }
+                    });
 
-        rs = cs.executeQuery();
-        if (rs.next() == false) {
-            System.out.println(String.format("There is no document with ID: %d", id));
-            throw new Exception("There is no document with ID: " + id);
-        } else {
-            do {
-                document = new Document();
-                document.setId(rs.getInt("id_Document"));
-                document.setName(rs.getString("name_Document"));
-                document.setType(rs.getString("type_Document"));
-                document.setDescription(rs.getString("description_Document"));
-                document.setDocument(rs.getBytes("file_Document"));
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("id", id);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
 
-                System.out.println("Document name: " + document.getName());
-            } while (rs.next());
+            log.info("Parametri za sp_readDocument za dohvacanje dokumenta: {}", in);
+
+            Map<String, Object> out = simpleJdbcCall.execute(in);
+
+            List<Document> listDocuments = (List<Document>) out.get("documents");
+
+            return listDocuments.get(0);
+        } catch (Exception e) {
+            log.error("Greska kod dohvata dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
         }
-
-        rs.close();
-        con.close();
-
-        return document;
     }
 }
