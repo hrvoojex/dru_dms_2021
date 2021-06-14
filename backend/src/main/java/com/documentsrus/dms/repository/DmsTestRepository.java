@@ -3,6 +3,7 @@ package com.documentsrus.dms.repository;
 import com.documentsrus.dms.model.Document;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -19,16 +20,15 @@ import java.util.Map;
 @Qualifier("dmsTestRepository")
 public class DmsTestRepository implements DmsRepositoryInterface {
 
+    JdbcTemplate jdbcTemplate;
 
+    DmsTestRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Document getDocument(int id) throws Exception {
         BasicDataSource dataSource = new BasicDataSource();
-
-        /*dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=DRU_DMS_2021;instance=MSSQLSERVER;");
-        dataSource.setUsername("dbuser");
-        dataSource.setPassword("dbuser");*/
 
         SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withSchemaName("dbo")
