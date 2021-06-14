@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.*;
+import java.util.List;
 
 @Repository
 public class DmsTestRepository implements DmsRepositoryInterface {
@@ -57,6 +58,11 @@ public class DmsTestRepository implements DmsRepositoryInterface {
 
     @Override
     public Document updateDocument(int id, String name, String type, String description, String path) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<Document> getAllDocuments() throws Exception {
         return null;
     }
 }

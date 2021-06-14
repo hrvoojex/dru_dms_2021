@@ -140,4 +140,43 @@ public class DmsRepository implements DmsRepositoryInterface {
         return this.getDocument(id);
     }
 
+    @Override
+    public List<Document> getAllDocuments() throws Exception {
+        List<Document> listDocuments = null;
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_readAllDocuments")
+
+                    .returningResultSet("documents", new RowMapper<Document>() {
+
+                        @Override
+                        public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            Document document = new Document();
+
+                            document.setId(rs.getInt("id_Document"));
+                            document.setName(rs.getString("name_Document"));
+                            document.setType(rs.getString("type_Document"));
+                            document.setDescription(rs.getString("description_Document"));
+                            document.setDocument(rs.getBytes("file_Document"));
+
+                            return document;
+                        }
+                    });
+
+
+            log.info("Pozvana sp_readAllDocuments za dohvacanje dokumenta");
+
+            Map<String, Object> out = simpleJdbcCall.execute();
+
+            listDocuments = (List<Document>) out.get("documents");
+
+        } catch (Exception e) {
+            log.error("Greska kod dohvata svih dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+
+        return listDocuments;
+    }
+
 }

@@ -5,6 +5,8 @@ import com.documentsrus.dms.repository.DmsRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DmsService implements DmsServiceInterface {
 
@@ -31,5 +33,10 @@ public class DmsService implements DmsServiceInterface {
     @Override
     public Document updateDocument(int id, String name, String type, String description, String path) throws Exception {
         return dmsRepository.updateDocument(id, name, type, description, path);
+    }
+
+    @Override
+    public List<Document> getAllDocuments() throws Exception {
+        return dmsRepository.getAllDocuments();
     }
 }

@@ -100,4 +100,23 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-documents")
+    public ResponseEntity getDocument() {
+        ServiceResult result = new ServiceResult();
+        List<Document> documents = null;
+        try {
+            documents = dmsService.getAllDocuments();
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error getting all documents");
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Documents available");
+        result.setResult(documents);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 }

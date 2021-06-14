@@ -3,6 +3,7 @@ package com.documentsrus.dms.repository;
 import com.documentsrus.dms.model.Document;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface DmsRepositoryInterface {
     Document getDocument(int id) throws Exception;
@@ -13,5 +14,6 @@ public interface DmsRepositoryInterface {
 
     Document updateDocument(int id, String name, String type, String description, String path) throws Exception;
 
+    List<Document> getAllDocuments() throws Exception;
 
 }
