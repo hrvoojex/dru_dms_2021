@@ -88,4 +88,29 @@ public class DmsRepository implements DmsRepositoryInterface {
         }
 
     }
+
+    @Override
+    public void insertDocument(String name, String type, String description, String path) throws Exception {
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_insertDocument");
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("name", name);
+            inParamMap.put("type", type);
+            inParamMap.put("description", description);
+            inParamMap.put("path", path);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+
+            log.info("Parametri za sp_insertDocument za unos dokumenta: {}", in);
+
+            simpleJdbcCall.execute(in);
+
+        } catch (Exception e) {
+            log.error("Greska kod kreiranja novog dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+    }
+
 }

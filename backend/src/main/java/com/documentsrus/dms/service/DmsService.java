@@ -22,4 +22,9 @@ public class DmsService implements DmsServiceInterface {
     public void deleteDocument(int id) throws Exception {
         dmsRepository.deleteDocument(id);
     }
+
+    @Override
+    public void insertDocument(String name, String type, String description, String path) throws Exception {
+        dmsRepository.insertDocument(name, type, description, path);
+    }
 }

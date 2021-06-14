@@ -6,6 +6,7 @@ public class Document {
     private String type;
     private String description;
     private byte[] document;
+    private String path;
 
     public int getId() {
         return id;
@@ -45,5 +46,13 @@ public class Document {
 
     public void setDocument(byte[] document) {
         this.document = document;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

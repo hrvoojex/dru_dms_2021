@@ -7,11 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +59,24 @@ public class DmsController {
         }
 
         result.setMessage("Document deleted");
+        result.setResult(null);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/insert-document", consumes = "application/json")
+    public ResponseEntity insertDocument(@RequestBody Document doc) {
+        ServiceResult result = new ServiceResult();
+
+        try {
+            dmsService.insertDocument(doc.getName(), doc.getType(), doc.getDescription(), doc.getPath());
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error inserting document");
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Document inserted");
         result.setResult(null);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

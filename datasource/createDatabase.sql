@@ -22,5 +22,9 @@ GO
 
 CREATE LOGIN dbuser WITH PASSWORD = 'dbuser';
 CREATE USER dbuser FOR LOGIN dbuser; 
+GO
+
+ALTER SERVER ROLE [bulkadmin] ADD MEMBER [dbuser]
+GO
 
 

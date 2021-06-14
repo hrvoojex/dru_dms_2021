@@ -16,11 +16,13 @@ select * from dbo.Document
 exec dbo.sp_readDocument @id = 1
 
 exec dbo.sp_updateDocument 
-	@id = 4, 
+	@id = 3, 
 	@description = '555',
 	@type = '555',
 	--@name = '555',
 	@path = 'D:\Text2.txt'
+
+exec dbo.sp_deleteDocument @id = 9
 
 select * from dbo.Document
 
