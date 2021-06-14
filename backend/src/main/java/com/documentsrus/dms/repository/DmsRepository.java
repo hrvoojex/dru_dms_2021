@@ -66,4 +66,26 @@ public class DmsRepository implements DmsRepositoryInterface {
             throw e;
         }
     }
+
+    @Override
+    public void deleteDocument(int id) throws Exception {
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_deleteDocument");
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("id", id);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+
+            log.info("Parametri za sp_deleteDocument za brisanje dokumenta: {}", in);
+
+            simpleJdbcCall.execute(in);
+
+        } catch (Exception e) {
+            log.error("Greska kod brisanja dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+
+    }
 }

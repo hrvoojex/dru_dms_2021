@@ -5,4 +5,7 @@ import com.documentsrus.dms.model.Document;
 public interface DmsServiceInterface {
     public Document getDocument(int id) throws Exception;
 
+    public void deleteDocument(int id) throws Exception;
+
+
 }

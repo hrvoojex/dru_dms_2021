@@ -44,4 +44,9 @@ public class DmsTestRepository implements DmsRepositoryInterface {
 
         return document;
     }
+
+    @Override
+    public void deleteDocument(int id) throws Exception {
+
+    }
 }

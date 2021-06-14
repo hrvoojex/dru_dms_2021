@@ -7,20 +7,26 @@
 -- ==============================================================
 
 CREATE PROCEDURE [dbo].[sp_deleteDocument] 
-    @id_Document INT
+    @id INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    IF @id_Document IS NULL
+    IF @id IS NULL
         BEGIN
             RAISERROR('Parametri ne smiju biti prazni!',16,1);
             GOTO greska;
 		END;
 
+	IF (SELECT id_Document FROM dbo.Document WHERE id_Document = @id) IS NULL
+        BEGIN
+            RAISERROR('U bazi nema dokumenta s tim id-jem', @id,16,1);
+            GOTO greska;
+		END;
+
 	BEGIN TRANSACTION;
 
-	DELETE FROM dbo.Document WHERE id_Document = @id_Document;
+	DELETE FROM dbo.Document WHERE id_Document = @id;
 
     IF @@ERROR <> 0
         BEGIN

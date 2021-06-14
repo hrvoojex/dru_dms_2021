@@ -47,4 +47,22 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/delete-document")
+    public ResponseEntity deleteDocument(@RequestParam("id") int id) {
+        ServiceResult result = new ServiceResult();
+
+        try {
+            dmsService.deleteDocument(id);
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error deleting document with id: " + id);
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Document deleted");
+        result.setResult(null);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

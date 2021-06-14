@@ -17,4 +17,9 @@ public class DmsService implements DmsServiceInterface {
     public Document getDocument(int id) throws Exception {
         return dmsRepository.getDocument(id);
     }
+
+    @Override
+    public void deleteDocument(int id) throws Exception {
+        dmsRepository.deleteDocument(id);
+    }
 }
