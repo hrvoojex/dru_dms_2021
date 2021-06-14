@@ -11,4 +11,7 @@ public interface DmsRepositoryInterface {
 
     void insertDocument(String name, String type, String description, String path) throws Exception;
 
+    Document updateDocument(int id, String name, String type, String description, String path) throws Exception;
+
+
 }

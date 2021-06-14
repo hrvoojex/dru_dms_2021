@@ -4,6 +4,14 @@ GO;
 exec dbo.sp_insertDocument @name = 'ime_moga_filea', @type = 'txt', @description = 'moj opis', @path = 'D:\Text1.txt'
 GO
 
+exec dbo.sp_updateDocument 
+	@id = 1,
+	@name = 'updateano ime', 
+	@type = 'novi.txt', 
+	@description = 'moj novi opis', 
+	@path = 'D:\Text1.txt'
+
+
 select * from dbo.Document
 
 USE DRU_DMS_2021;

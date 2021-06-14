@@ -27,4 +27,9 @@ public class DmsService implements DmsServiceInterface {
     public void insertDocument(String name, String type, String description, String path) throws Exception {
         dmsRepository.insertDocument(name, type, description, path);
     }
+
+    @Override
+    public Document updateDocument(int id, String name, String type, String description, String path) throws Exception {
+        return dmsRepository.updateDocument(id, name, type, description, path);
+    }
 }

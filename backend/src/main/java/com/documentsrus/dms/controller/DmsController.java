@@ -81,4 +81,23 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/update-document", consumes = "application/json")
+    public ResponseEntity updateDocument(@RequestBody Document doc) {
+        ServiceResult result = new ServiceResult();
+        Document document = new Document();
+
+        try {
+            document = dmsService.updateDocument(doc.getId(), doc.getName(), doc.getType(), doc.getDescription(), doc.getPath());
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error updating document");
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Document updated");
+        result.setResult(document);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

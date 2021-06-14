@@ -113,4 +113,31 @@ public class DmsRepository implements DmsRepositoryInterface {
         }
     }
 
+    @Override
+    public Document updateDocument(int id, String name, String type, String description, String path) throws Exception {
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_updateDocument");
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("id", id);
+            inParamMap.put("name", name);
+            inParamMap.put("type", type);
+            inParamMap.put("description", description);
+            inParamMap.put("path", path);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+
+            log.info("Parametri za sp_updateDocument za update dokumenta: {}", in);
+
+            simpleJdbcCall.execute(in);
+
+        } catch (Exception e) {
+            log.error("Greska kod updatea dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+
+        return this.getDocument(id);
+    }
+
 }

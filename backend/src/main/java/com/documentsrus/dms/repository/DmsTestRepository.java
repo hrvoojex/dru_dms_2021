@@ -54,4 +54,9 @@ public class DmsTestRepository implements DmsRepositoryInterface {
     public void insertDocument(String name, String type, String description, String path) throws Exception {
 
     }
+
+    @Override
+    public Document updateDocument(int id, String name, String type, String description, String path) throws Exception {
+        return null;
+    }
 }
