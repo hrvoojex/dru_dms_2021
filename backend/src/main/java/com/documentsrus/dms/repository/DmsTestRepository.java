@@ -1,6 +1,7 @@
 package com.documentsrus.dms.repository;
 
 import com.documentsrus.dms.model.Document;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Slf4j
 @Qualifier("dmsTestRepository")
 public class DmsTestRepository implements DmsRepositoryInterface {
 
@@ -28,35 +30,40 @@ public class DmsTestRepository implements DmsRepositoryInterface {
 
     @Override
     public Document getDocument(int id) throws Exception {
-        BasicDataSource dataSource = new BasicDataSource();
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_readDocument")
+                    .returningResultSet("documents", new RowMapper<Document>() {
 
-        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withSchemaName("dbo")
-                .withProcedureName("sp_readDocument")
-                .returningResultSet("documents", new RowMapper<Document>() {
+                        @Override
+                        public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            Document document = new Document();
 
-                    @Override
-                    public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        Document document = new Document();
+                            document.setId(rs.getInt("id_Document"));
+                            document.setName(rs.getString("name_Document"));
+                            document.setType(rs.getString("type_Document"));
+                            document.setDescription(rs.getString("description_Document"));
+                            document.setDocument(rs.getBytes("file_Document"));
 
-                        document.setId(rs.getInt("id_Document"));
-                        document.setName(rs.getString("name_Document"));
-                        document.setType(rs.getString("type_Document"));
-                        document.setDescription(rs.getString("description_Document"));
-                        document.setDocument(rs.getBytes("file_Document"));
+                            return document;
+                        }
+                    });
 
-                        return document;
-                    }
-                });
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("id", id);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
 
-        Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("id", id);
-        SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+            log.info("Parametri za sp_readDocument za dohvacanje dokumenta: {}", in);
 
-        Map<String, Object> out = simpleJdbcCall.execute(in);
+            Map<String, Object> out = simpleJdbcCall.execute(in);
 
-        List<Document> listDocuments = (List<Document>) out.get("documents");
+            List<Document> listDocuments = (List<Document>) out.get("documents");
 
-        return listDocuments.get(0);
+            return listDocuments.get(0);
+        } catch (Exception e) {
+            log.error("Greska kod dohvata dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
     }
 }
