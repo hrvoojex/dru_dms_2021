@@ -1,7 +1,8 @@
 import { IResultSet, IDocumentResultSet } from './data/IDocument';
 import { DmsService } from './service/dms-service';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class AppComponent {
   displayedColumns: string[] = ['index','name', 'description'];
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
+  message = '';
 
   /* mockDataSource: IDocumentResultSet[] = [
     {"id":1,"name":"postman update 1","type":"txt.txt","description":"opis text file novi","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlLg==","path":null},
@@ -39,7 +41,7 @@ export class AppComponent {
       this.countDocuments = 0;
       this.resultSet = response;
 
-      this.resultSet.message = response.message;
+      this.message = response.message;
       console.log("this.resultSet: ", this.resultSet);
 
       this.countDocuments = response.result.length;
@@ -62,5 +64,9 @@ export class AppComponent {
     })
   }
   
+  onRowClicked(document: IDocumentResultSet) {
+    //console.log(event.target);
+    console.log(document);
+  }
 
 }

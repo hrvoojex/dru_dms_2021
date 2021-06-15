@@ -1,3 +1,23 @@
 table {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.red-text {
+color: red;
+}
+
+.title {
+text-align: center;
+}
+
+/* .mat-row:nth-child(even) {
+background-color: rgb(222, 225, 240);
+}
+
+.mat-row:nth-child(odd) {
+background-color:white;
+}
+
+.mat-header-row {
+background-color:rgb(63, 81, 181);
+} */

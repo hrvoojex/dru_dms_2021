@@ -1,5 +1,10 @@
 <h1>{{title}}</h1>
 
+<div class="red-text" *ngIf="message != 'Documents available'">
+     {{ message }} 
+</div>
+<br />
+
 <div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Index Column -->
@@ -29,7 +34,9 @@
 
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row 
+            *matRowDef="let document; columns: displayedColumns;"
+            (click) = "onRowClicked(document)"
+        ></tr>
     </table>
-
 </div>
