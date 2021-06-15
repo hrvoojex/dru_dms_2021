@@ -14,19 +14,10 @@ export class AppComponent {
   title = 'DMS Front';
   resultSet: IResultSet = null;
   documentArray: IDocumentResultSet[] = [];
-  displayedColumns: string[] = ['index','name', 'description'];
+  displayedColumns: string[] = ['index','name', 'description', 'download'];
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
   message = '';
-
-  /* mockDataSource: IDocumentResultSet[] = [
-    {"id":1,"name":"postman update 1","type":"txt.txt","description":"opis text file novi","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlLg==","path":null},
-    {"id":2,"name":"ime_moga_filea","type":"txt","description":"moj opis","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlLg==","path":null},
-    {"id":3,"name":"ime_moga_filea","type":"txt","description":"moj opis","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlLg==","path":null},
-    {"id":4,"name":"novo novcato ime json","type":"txt","description":"opis text file","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlLg==","path":null},
-    {"id":5,"name":"najnovije ime iz postamana za file text2","type":"txt","description":"opis text file","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlIDIu","path":null},
-    {"id":6,"name":"najnovije ime iz postamana za file text2","type":"txt","description":"opis text file","document":"VGhpcyBpcyBhIGRlbW8gdGV4dCBmaWxlIDIu","path":null}
-  ] */
 
   constructor(private restService: DmsService) { }
 
@@ -57,7 +48,6 @@ export class AppComponent {
       });
 
       this.dataSource = new MatTableDataSource<IDocumentResultSet>(this.documentArray);
-      //this.dataSource = new MatTableDataSource<IDocumentResultSet>(this.mockDataSource);
       console.log("this.documentArray", this.documentArray);
       console.log("this.datasource", this.dataSource);
 
@@ -66,7 +56,26 @@ export class AppComponent {
   
   onRowClicked(document: IDocumentResultSet) {
     //console.log(event.target);
-    console.log(document);
+    console.log("Row clicked: ", document);
+  }
+
+  downloadDocument(document: IDocumentResultSet) {
+    let documentBase64 = document.document;
+    let documentDecoded = atob(documentBase64);
+    console.log(documentDecoded);
+    
+    let encodedByteArray = new TextEncoder().encode(documentDecoded)
+
+    //var encoded = new TextEncoder().encode("Γεια σου κόσμε");
+    //var decoded = new TextDecoder("utf-8").decode(encoded);
+    //console.log(encoded, decoded);
+
+
+    //let file = new Blob([response], { type: 'application/pdf' });  
+    let file = new Blob([encodedByteArray.buffer], { type: 'text/plain' });          
+    let fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+
   }
 
 }

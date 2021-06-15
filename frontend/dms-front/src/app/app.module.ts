@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -15,7 +16,11 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     BrowserAnimationsModule,
     MatTableModule,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule
+  ],
+  exports: [
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
