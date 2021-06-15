@@ -10,6 +10,10 @@ color: red;
 text-align: center;
 }
 
+.file-input {
+  display: none;
+}
+
 /* .mat-row:nth-child(even) {
 background-color: rgb(222, 225, 240);
 }

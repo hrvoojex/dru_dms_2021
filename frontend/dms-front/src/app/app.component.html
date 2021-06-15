@@ -5,6 +5,19 @@
 </div>
 <br />
 
+<input type="file" class="file-input" (change)="uploadDocument($event)" #fileUpload>
+
+<div class="file-upload">
+
+    {{fileName || "No file uploaded yet."}}
+
+    <button mat-mini-fab color="primary" class="upload-btn"
+        (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+    </button>
+</div>
+<br />
+
 <div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Index Column -->

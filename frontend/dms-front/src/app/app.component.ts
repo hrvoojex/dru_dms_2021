@@ -59,8 +59,8 @@ export class AppComponent {
     console.log("Row clicked: ", document);
   }
 
-  downloadDocument(document: IDocumentResultSet) {
-    let documentBase64 = document.document;
+  downloadDocument(doc: IDocumentResultSet) {
+    let documentBase64 = doc.document;
     let documentDecoded = atob(documentBase64);
     console.log(documentDecoded);
     
@@ -70,12 +70,26 @@ export class AppComponent {
     //var decoded = new TextDecoder("utf-8").decode(encoded);
     //console.log(encoded, decoded);
 
-
     //let file = new Blob([response], { type: 'application/pdf' });  
-    let file = new Blob([encodedByteArray.buffer], { type: 'text/plain' });          
+    /* let file = new Blob([encodedByteArray.buffer], { type: 'text/plain' });          
     let fileURL = URL.createObjectURL(file);
-    window.open(fileURL);
+    window.open(fileURL); */
 
+    const link = document.createElement( 'a' );
+    link.style.display = 'none';
+    document.body.appendChild( link );
+
+    const blob = new Blob([encodedByteArray.buffer] );	
+    const objectURL = URL.createObjectURL(blob);
+    
+    link.href = objectURL;
+    link.href = URL.createObjectURL(blob);
+    link.download =  doc.name;
+    link.click();
+  }
+
+  uploadDocument(event: any) {
+    console.log(event.target.files);
   }
 
 }
