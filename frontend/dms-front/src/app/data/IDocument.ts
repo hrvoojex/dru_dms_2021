@@ -4,17 +4,12 @@ export interface IDocumentResultSet {
     name: string;
     type: string;
     description: string;
-    document: Int32Array;
+    //document: Int32Array;
+    document: string;
     path: string;
 }
 
 export interface IResultSet {
     message: string;
     result: IDocumentResultSet[];
-}
-
-export interface IDocument {
-    name: string;
-    description: string;
-    document: Int32Array;
 }
