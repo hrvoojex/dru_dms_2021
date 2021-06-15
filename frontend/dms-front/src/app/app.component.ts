@@ -1,6 +1,8 @@
-import { IResultSet } from './data/IDocument';
+import { IResultSet, IDocument } from './data/IDocument';
 import { DmsService } from './service/dms-service';
 import { Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-root',
@@ -9,12 +11,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'DMS Front';
-  resultSetArray: IResultSet[];
+  resultSetArray: IResultSet[] = [];
+  documentArray: IDocument[] = [];
+  displayedColumns: string[] = ['name', 'description'];
+  dataSource: MatTableDataSource<IResultSet>;
+  errorMessage = '';
+  countDocument: number;
 
-  constructor(public restService: DmsService) { }
+  constructor(private restService: DmsService) { }
 
   ngOnInit() {
-    
+    this.getAllDocuments();
   }
 
   getAllDocuments() {
@@ -25,11 +32,13 @@ export class AppComponent {
 
       this.resultSetArray = [];
       this.resultSetArray.push({
-          name: response.name,
-          type: response.type
+          message: response.message,
+          result: response.result
         });
-    }
-  };
+      this.dataSource = new MatTableDataSource<IResultSet>(this.resultSetArray);
+      console.log(this.resultSetArray);
+    })
+  }
   
 
 }
