@@ -119,5 +119,24 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/insert-bytes-document", consumes = "application/json")
+    public ResponseEntity insertBytesDocument(@RequestBody Document doc) {
+        ServiceResult result = new ServiceResult();
+
+        try {
+            dmsService.insertBytesDocument(doc.getName(), doc.getType(), doc.getDescription(), doc.getDocument());
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error inserting document with bytes");
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Document inserted");
+        result.setResult(null);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 
 }

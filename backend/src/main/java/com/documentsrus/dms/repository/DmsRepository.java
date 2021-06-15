@@ -179,4 +179,28 @@ public class DmsRepository implements DmsRepositoryInterface {
         return listDocuments;
     }
 
+    @Override
+    public void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception {
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_insertBytesDocument");
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("name", name);
+            inParamMap.put("type", type);
+            inParamMap.put("description", description);
+            inParamMap.put("bytes", bytes);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+
+            log.info("Parametri za sp_insertBytesDocument za unos dokumenta: {}", in);
+
+            simpleJdbcCall.execute(in);
+
+        } catch (Exception e) {
+            log.error("Greska kod kreiranja novog dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+    }
+
 }

@@ -65,4 +65,9 @@ public class DmsTestRepository implements DmsRepositoryInterface {
     public List<Document> getAllDocuments() throws Exception {
         return null;
     }
+
+    @Override
+    public void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception {
+
+    }
 }

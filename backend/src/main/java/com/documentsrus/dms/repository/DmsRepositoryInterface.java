@@ -16,4 +16,6 @@ public interface DmsRepositoryInterface {
 
     List<Document> getAllDocuments() throws Exception;
 
+    void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception;
+
 }

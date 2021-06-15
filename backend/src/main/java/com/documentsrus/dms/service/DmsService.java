@@ -39,4 +39,10 @@ public class DmsService implements DmsServiceInterface {
     public List<Document> getAllDocuments() throws Exception {
         return dmsRepository.getAllDocuments();
     }
+
+    @Override
+    public void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception {
+        dmsRepository.insertBytesDocument(name, type, description, bytes);
+
+    }
 }

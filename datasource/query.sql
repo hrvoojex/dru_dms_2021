@@ -11,6 +11,8 @@ exec dbo.sp_updateDocument
 	@description = 'moj novi opis', 
 	@path = 'D:\Text1.txt'
 
+exec dbo.sp_readAllDocuments
+
 
 select * from dbo.Document
 
