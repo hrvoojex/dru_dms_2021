@@ -9,14 +9,25 @@ export class DmsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  url = "http://localhost:8080/docs/";
+  url = "http://localhost:8080/docs";
 
   getData(url: string): Observable<any> {
     return this.httpClient.get<any>(url);
   }
 
   getAllDocuments(): Observable<any> {
-    return this.httpClient.get<any>(this.url + 'get-all-documents');
+    return this.httpClient.get<any>(this.url + '/get-all-documents');
+  }
+
+  insertBytesDocument(file: File, description: string): Observable<any> {
+    let formData = new FormData();
+    let reqJson: any = {};
+    reqJson["description"] = description;
+
+    formData.append("file", file);
+    formData.append('info', JSON.stringify(reqJson));
+
+    return this.httpClient.post(this.url + '/insert-bytes-document', formData);
   }
 
 

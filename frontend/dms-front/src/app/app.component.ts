@@ -18,6 +18,7 @@ export class AppComponent {
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
   message = '';
+  fileName = '';
 
   constructor(private restService: DmsService) { }
 
@@ -90,6 +91,15 @@ export class AppComponent {
 
   uploadDocument(event: any) {
     console.log(event.target.files);
+    let file: File = event.target.files[0]
+    this.fileName = file.name;
+    let description: string = file.type;  //TODO Take description from a user
+    this.restService.insertBytesDocument(file, description).subscribe(resp => {
+      console.log("Upload succesful...");
+      this.getAllDocuments();
+    })
+
+
   }
 
 }

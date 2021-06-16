@@ -14,6 +14,10 @@ text-align: center;
   display: none;
 }
 
+.file-upload {
+  margin-left: 25px;
+}
+
 /* .mat-row:nth-child(even) {
 background-color: rgb(222, 225, 240);
 }

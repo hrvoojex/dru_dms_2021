@@ -4,12 +4,15 @@ import com.documentsrus.dms.model.Document;
 import com.documentsrus.dms.model.ServiceResult;
 import com.documentsrus.dms.service.DmsServiceInterface;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,12 +122,23 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/insert-bytes-document", consumes = "application/json")
-    public ResponseEntity insertBytesDocument(@RequestBody Document doc) {
+    @PostMapping(value = "/insert-bytes-document")
+    public ResponseEntity insertBytesDocument(@RequestParam("file") MultipartFile file, @RequestParam("info") String info) {
         ServiceResult result = new ServiceResult();
 
         try {
-            dmsService.insertBytesDocument(doc.getName(), doc.getType(), doc.getDescription(), doc.getDocument());
+            if (file.isEmpty()) {
+                result.setMessage("No file attached. Error inserting document with bytes.");
+                result.setResult(null);
+                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            }
+
+            byte[] bytes = file.getBytes();
+            JSONObject json = new JSONObject(info);
+            String description = json.getString("description");
+            dmsService.insertBytesDocument(
+                    file.getOriginalFilename(), file.getContentType(), description, bytes);
+
         } catch (Exception e){
             e.printStackTrace();
             result.setMessage("Error inserting document with bytes");
