@@ -14,7 +14,7 @@ export class AppComponent {
   title = 'DMS Front';
   resultSet: IResultSet = null;
   documentArray: IDocumentResultSet[] = [];
-  displayedColumns: string[] = ['index','name', 'description', 'download', 'delete'];
+  displayedColumns: string[] = ['index','name', 'description', 'view', 'download', 'delete'];
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
   message = '';
@@ -107,5 +107,19 @@ export class AppComponent {
       this.getAllDocuments();
     })
   }
+
+  viewDocument(doc: any) {
+    let documentBase64 = doc.document;
+    let documentDecoded = atob(documentBase64);
+    console.log(documentDecoded);
+    
+    let encodedByteArray = new TextEncoder().encode(documentDecoded)
+    
+    const blob = new Blob([encodedByteArray.buffer] );	
+    const objectURL = URL.createObjectURL(blob);
+
+    window.open(objectURL);
+  }
+  
 
 }

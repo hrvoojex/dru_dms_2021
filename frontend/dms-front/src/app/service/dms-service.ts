@@ -34,7 +34,4 @@ export class DmsService {
     return this.httpClient.get<any>(this.url + '/delete-document?id=' + id);
   }
 
-
-
-
 }

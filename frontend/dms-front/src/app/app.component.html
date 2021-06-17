@@ -38,6 +38,14 @@
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
         </ng-container>
 
+        <!-- View Column -->
+        <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef> Pregled </th>
+            <td mat-cell *matCellDef="let document">
+                <button mat-icon-button (click)="viewDocument(document)"><mat-icon>slideshow</mat-icon></button>
+            </td>
+        </ng-container>
+
         <!-- Download Column -->
         <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef> Preuzmi </th>
