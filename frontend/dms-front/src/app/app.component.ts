@@ -14,7 +14,7 @@ export class AppComponent {
   title = 'DMS Front';
   resultSet: IResultSet = null;
   documentArray: IDocumentResultSet[] = [];
-  displayedColumns: string[] = ['index','name', 'description', 'download'];
+  displayedColumns: string[] = ['index','name', 'description', 'download', 'delete'];
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
   message = '';
@@ -66,6 +66,7 @@ export class AppComponent {
     console.log(documentDecoded);
     
     let encodedByteArray = new TextEncoder().encode(documentDecoded)
+    //let encodedByteArray = new TextEncoder().encode(doc.document)
 
     //var encoded = new TextEncoder().encode("Γεια σου κόσμε");
     //var decoded = new TextDecoder("utf-8").decode(encoded);
@@ -98,8 +99,13 @@ export class AppComponent {
       console.log("Upload succesful...");
       this.getAllDocuments();
     })
+  }
 
-
+  deleteDocument(id: number) {
+    this.restService.deleteDocument(id).subscribe(resp => {
+      console.log("Document deleted ...");
+      this.getAllDocuments();
+    })
   }
 
 }

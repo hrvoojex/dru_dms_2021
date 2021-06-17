@@ -30,6 +30,10 @@ export class DmsService {
     return this.httpClient.post(this.url + '/insert-bytes-document', formData);
   }
 
+  deleteDocument(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.url + '/delete-document?id=' + id);
+  }
+
 
 
 
