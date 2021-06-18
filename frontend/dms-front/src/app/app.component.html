@@ -7,18 +7,21 @@
 
 <div id="block-container">
     <div id="block1">
-        <label>Opis: </label>
-        <input type="text" class="form-control" id="description" [(ngModel)]="description" />
+        <label for="description">Opis: </label>
+        <textarea class="form-control" id="description" [(ngModel)]="description" ></textarea>
     </div>
     <input type="file" class="file-input" (change)="uploadDocument($event)" #fileUpload>
     <div id="block2" class="file-upload">
 
-        {{fileName || "Pohrani dokument u DMS."}}
+        {{"Odabir dokumenta "}}
 
         <button mat-mini-fab color="primary" class="upload-btn"
             (click)="fileUpload.click()">
             <mat-icon>cloud_upload</mat-icon>
         </button>
+
+        {{"Dokument: " + fileName || "Dokument: "}}
+
     </div>
 </div>
 <br />
