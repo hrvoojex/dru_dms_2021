@@ -5,16 +5,21 @@
 </div>
 <br />
 
-<input type="file" class="file-input" (change)="uploadDocument($event)" #fileUpload>
+<div id="block-container">
+    <div id="block1">
+        <label>Opis: </label>
+        <input type="text" class="form-control" id="description" [(ngModel)]="description" />
+    </div>
+    <input type="file" class="file-input" (change)="uploadDocument($event)" #fileUpload>
+    <div id="block2" class="file-upload">
 
-<div class="file-upload">
+        {{fileName || "Pohrani dokument u DMS."}}
 
-    {{fileName || "Pohrani dokument u DMS."}}
-
-    <button mat-mini-fab color="primary" class="upload-btn"
-        (click)="fileUpload.click()">
-        <mat-icon>cloud_upload</mat-icon>
-    </button>
+        <button mat-mini-fab color="primary" class="upload-btn"
+            (click)="fileUpload.click()">
+            <mat-icon>cloud_upload</mat-icon>
+        </button>
+    </div>
 </div>
 <br />
 

@@ -19,6 +19,7 @@ export class AppComponent {
   countDocuments: number = 0;
   message = '';
   fileName = '';
+  description = '';
 
   constructor(private restService: DmsService) { }
 
@@ -94,7 +95,7 @@ export class AppComponent {
     console.log(event.target.files);
     let file: File = event.target.files[0]
     this.fileName = file.name;
-    let description: string = file.type;  //TODO Take description from a user
+    let description: string = this.description;  //TODO Take description from a user
     this.restService.insertBytesDocument(file, description).subscribe(resp => {
       console.log("Upload succesful...");
       this.getAllDocuments();
@@ -114,12 +115,14 @@ export class AppComponent {
     console.log(documentDecoded);
     
     let encodedByteArray = new TextEncoder().encode(documentDecoded)
-    
+
     const blob = new Blob([encodedByteArray.buffer] );	
     const objectURL = URL.createObjectURL(blob);
 
     window.open(objectURL);
   }
+
+
   
 
 }

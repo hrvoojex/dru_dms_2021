@@ -18,6 +18,16 @@ text-align: center;
   margin-left: 25px;
 }
 
+#block_container
+{
+    text-align:center;
+}
+#block1, #block2
+{
+    display:inline;
+    margin-left: 25px;
+}
+
 /* .mat-row:nth-child(even) {
 background-color: rgb(222, 225, 240);
 }
