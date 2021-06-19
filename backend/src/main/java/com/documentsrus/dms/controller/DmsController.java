@@ -158,6 +158,7 @@ public class DmsController {
         int id = 0;
         String description = "";
         String name = "";
+        String type = "";
         byte[] bytes = null;
         try {
             if (file != null) {
@@ -168,6 +169,7 @@ public class DmsController {
                 description = json.getString("description");
                 name = json.getString("name");
                 id = json.getInt("id");
+                type = json.getString("type");
             }
 
             dmsService.updateBytesDocument(
