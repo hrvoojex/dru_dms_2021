@@ -15,6 +15,7 @@ export class EditDocumentComponentComponent implements OnInit {
   document = '';
   doc: IDocumentResultSet;
   file: File = null;
+  type = '';
 
 
   constructor(private restService: DmsService,
@@ -26,6 +27,7 @@ export class EditDocumentComponentComponent implements OnInit {
     this.description = this.data.description;
     this.document = this.data.document;
     this.id = this.data.id;
+    this.type = this.data.type;
   }
 
   // Edit document
@@ -33,12 +35,13 @@ export class EditDocumentComponentComponent implements OnInit {
     console.log(event.target.files);
     this.file = event.target.files[0]
     this.name = this.file.name;
+    this.type = this.file.type;
     
   }
 
   onClose() {
     this.restService.updateBytesDocument(
-      this.file, this.description, this.name, this.id).subscribe(resp => {
+      this.file, this.description, this.name, this.id, this.type).subscribe(resp => {
       console.log("Upload succesful...");
     })
     this.dialogRef.close();
