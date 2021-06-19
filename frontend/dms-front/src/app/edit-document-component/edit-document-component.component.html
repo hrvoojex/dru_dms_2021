@@ -4,11 +4,11 @@
 <div>
     <div>
         <label for="name">Naziv: </label>
-        <input class="form-control" id="name" [(ngModel)]="name" />
+        <input matInput class="form-control" id="name" [(ngModel)]="name" />
     </div>
     <div>
         <label for="description">Opis: </label>
-        <input class="form-control" id="description" [(ngModel)]="description" />
+        <input matInput class="form-control" id="description" [(ngModel)]="description" />
     </div>
     <div>
         <input type="file" class="file-input" (change)="uploadEditDocument($event)" #fileEditUpload>
