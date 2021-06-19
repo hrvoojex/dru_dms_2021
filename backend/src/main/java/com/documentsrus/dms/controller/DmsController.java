@@ -119,6 +119,7 @@ public class DmsController {
 
         result.setMessage("Documents available");
         result.setResult(documents);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
