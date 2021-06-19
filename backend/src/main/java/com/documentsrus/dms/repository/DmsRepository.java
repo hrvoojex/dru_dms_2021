@@ -203,4 +203,31 @@ public class DmsRepository implements DmsRepositoryInterface {
         }
     }
 
+    @Override
+    public Document updateBytesDocument(int id, String name, String type, String description, byte[] bytes) throws Exception {
+        try {
+            SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                    .withSchemaName("dbo")
+                    .withProcedureName("sp_updateBytesDocument");
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("id", id);
+            inParamMap.put("name", name);
+            inParamMap.put("type", type);
+            inParamMap.put("description", description);
+            inParamMap.put("bytes", bytes);
+            SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+
+            log.info("Parametri za sp_updateBytesDocument za update dokumenta: {}", in);
+
+            simpleJdbcCall.execute(in);
+
+        } catch (Exception e) {
+            log.error("Greska kod updatea dokumenta {} {}", e.getLocalizedMessage(), e);
+            throw e;
+        }
+
+        return this.getDocument(id);
+    }
+
 }

@@ -45,4 +45,9 @@ public class DmsService implements DmsServiceInterface {
         dmsRepository.insertBytesDocument(name, type, description, bytes);
 
     }
+
+    @Override
+    public Document updateBytesDocument(int id, String name, String type, String description, byte[] bytes) throws Exception {
+        return dmsRepository.updateBytesDocument(id, name, type, description, bytes);
+    }
 }

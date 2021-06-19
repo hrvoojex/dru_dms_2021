@@ -34,4 +34,17 @@ export class DmsService {
     return this.httpClient.get<any>(this.url + '/delete-document?id=' + id);
   }
 
+  updateBytesDocument(file: File, description: string, name: string, id: number): Observable<any> {
+    let formData = new FormData();
+    let reqJson: any = {};
+    reqJson["description"] = description;
+    reqJson["name"] = name;
+    reqJson["id"] = id;
+
+    formData.append("file", file);
+    formData.append('info', JSON.stringify(reqJson));
+
+    return this.httpClient.post(this.url + '/update-bytes-document', formData);
+  }
+
 }

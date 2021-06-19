@@ -3,7 +3,8 @@ import { DmsService } from './service/dms-service';
 import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-
+import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
+import { EditDocumentComponentComponent } from './edit-document-component/edit-document-component.component';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +15,14 @@ export class AppComponent {
   title = 'DMS Front';
   resultSet: IResultSet = null;
   documentArray: IDocumentResultSet[] = [];
-  displayedColumns: string[] = ['index','name', 'description', 'view', 'download', 'delete'];
+  displayedColumns: string[] = ['index','name', 'description', 'view', 'download', 'edit', 'delete'];
   dataSource: MatTableDataSource<IDocumentResultSet>;
   countDocuments: number = 0;
   message = '';
   fileName = '';
   description = '';
 
-  constructor(private restService: DmsService) { }
+  constructor(private restService: DmsService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getAllDocuments();
@@ -120,6 +121,18 @@ export class AppComponent {
     const objectURL = URL.createObjectURL(blob);
 
     window.open(objectURL);
+  }
+
+  openEditModal(row: IDocumentResultSet) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = row;
+    dialogConfig.width = '80%';
+    const dialog = this.dialog.open(EditDocumentComponentComponent, dialogConfig);
+    dialog.afterClosed().subscribe(result => {
+      this.getAllDocuments();
+    });
   }
 
 

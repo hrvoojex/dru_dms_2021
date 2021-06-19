@@ -17,4 +17,6 @@ public interface DmsServiceInterface {
 
     void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception;
 
+    Document updateBytesDocument(int id, String name, String type, String description, byte[] bytes) throws Exception;
+
 }

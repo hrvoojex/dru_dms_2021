@@ -151,6 +151,33 @@ public class DmsController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/update-bytes-document")
+    public ResponseEntity updateBytesDocument(@RequestParam("file") MultipartFile file, @RequestParam("info") String info) {
+        ServiceResult result = new ServiceResult();
+
+        try {
+
+            byte[] bytes = file.getBytes();
+            JSONObject json = new JSONObject(info);
+            String description = json.getString("description");
+            String name = json.getString("name");
+            int id = json.getInt("id");
+            dmsService.updateBytesDocument(
+                    id, name, file.getContentType(), description, bytes);
+
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Error inserting document with bytes");
+            result.setResult(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.setMessage("Document inserted");
+        result.setResult(null);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 
 
 }

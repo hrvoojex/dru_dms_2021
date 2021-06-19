@@ -70,4 +70,9 @@ public class DmsTestRepository implements DmsRepositoryInterface {
     public void insertBytesDocument(String name, String type, String description, byte[] bytes) throws Exception {
 
     }
+
+    @Override
+    public Document updateBytesDocument(int id, String name, String type, String description, byte[] bytes) throws Exception {
+        return null;
+    }
 }

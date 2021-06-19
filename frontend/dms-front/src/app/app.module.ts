@@ -7,11 +7,13 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { EditDocumentComponentComponent } from './edit-document-component/edit-document-component.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EditDocumentComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     HttpClientModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   exports: [
     MatIconModule
