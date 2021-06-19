@@ -152,16 +152,24 @@ public class DmsController {
     }
 
     @PostMapping(value = "/update-bytes-document")
-    public ResponseEntity updateBytesDocument(@RequestParam("file") MultipartFile file, @RequestParam("info") String info) {
+    public ResponseEntity updateBytesDocument(@RequestParam(value="file",  required=false) MultipartFile file,
+                                              @RequestParam(value="info",  required=false) String info) {
         ServiceResult result = new ServiceResult();
-
+        int id = 0;
+        String description = "";
+        String name = "";
+        byte[] bytes = null;
         try {
+            if (!file.isEmpty()) {
+                bytes = file.getBytes();
+            }
+            if (!info.isEmpty()) {
+                JSONObject json = new JSONObject(info);
+                description = json.getString("description");
+                name = json.getString("name");
+                id = json.getInt("id");
+            }
 
-            byte[] bytes = file.getBytes();
-            JSONObject json = new JSONObject(info);
-            String description = json.getString("description");
-            String name = json.getString("name");
-            int id = json.getInt("id");
             dmsService.updateBytesDocument(
                     id, name, file.getContentType(), description, bytes);
 
