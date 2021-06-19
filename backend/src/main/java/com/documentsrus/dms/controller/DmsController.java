@@ -160,7 +160,7 @@ public class DmsController {
         String name = "";
         byte[] bytes = null;
         try {
-            if (!file.isEmpty()) {
+            if (file != null) {
                 bytes = file.getBytes();
             }
             if (!info.isEmpty()) {
