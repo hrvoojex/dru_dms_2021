@@ -173,7 +173,7 @@ public class DmsController {
             }
 
             dmsService.updateBytesDocument(
-                    id, name, type, description, bytes);
+                    id, name, type , description, bytes);
 
         } catch (Exception e){
             e.printStackTrace();
