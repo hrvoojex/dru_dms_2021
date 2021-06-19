@@ -128,7 +128,7 @@ export class AppComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = row;
-    dialogConfig.width = '80%';
+    dialogConfig.width = '30%';
     const dialog = this.dialog.open(EditDocumentComponentComponent, dialogConfig);
     dialog.afterClosed().subscribe(result => {
       this.getAllDocuments();
